@@ -8,8 +8,8 @@ Reading, UK · [LinkedIn](https://www.linkedin.com/in/monnaliisa-saha/)
 This repository documents an eleven-round optimisation challenge across eight hidden black-box functions. The goal: find the input that maximises each function's output — without ever seeing the equation, the gradient, or the shape of the landscape. One query per function per week. Every choice counts.
 
 **Project Documentation**
-- [Datasheet for Dataset](docs/DATASHEET.md) — composition, collection process, gaps and assumptions
-- [Model Card](docs/MODEL_CARD.md) — pipeline details, strategy evolution, performance and limitations
+- [Datasheet for Dataset](DATASHEET.md) — composition, collection process, gaps and assumptions
+- [Model Card](MODEL_CARD.md) — pipeline details, strategy evolution, performance and limitations
 
 ---
 
