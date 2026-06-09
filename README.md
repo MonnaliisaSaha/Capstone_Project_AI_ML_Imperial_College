@@ -77,17 +77,34 @@ NN   → computes gradient at current best; nudges final query in improving dire
 ## Repository Structure
 
 ```
+## Repository Structure
+
 ├── README.md
-├── data/
-│   └── *.npy               — initial 10 observations per function
-├── docs/
-│   ├── DATASHEET.md        — dataset documentation
-│   ├── MODEL_CARD.md       — pipeline and strategy documentation
-│   ├── strategy_log.md     — round-by-round decisions and beta evolution
-│   └── results_summary.md  — all-time bests and confirmed coordinates
-└── Round_01/ to Round_11/
-    ├── README.md           — what happened this round: strategy, results, observations
-    └── round_XX.py         — script with full inline explanations
+├── DATASHEET.md            — dataset motivation, composition and limitations
+├── MODEL_CARD.md           — pipeline details, strategy evolution and performance
+├── requirements.txt
+├── Round_01_README.md      — Round 1: what happened and why
+├── Round_01.py             — Round 1: script with full inline explanations
+├── Round_02_README.md
+├── Round_02.py
+├── Round_03_README.md
+├── Round_03.py
+├── Round_04_README.md
+├── Round_04.py
+├── Round_05_README.md
+├── Round_05.py
+├── Round_06_README.md
+├── Round_06.py
+├── Round_07_README.md
+├── Round_07.py
+├── Round_08_README.md
+├── Round_08.py
+├── Round_09_README.md
+├── Round_09.py
+├── Round_10_README.md
+├── Round_10.py
+├── Round_11_README.md
+└── Round_11.py
 ```
 
 ---
