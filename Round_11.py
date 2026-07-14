@@ -1,7 +1,6 @@
 """
 Round 11 — Full GP + UCB + SVM + NN Pipeline
 ================================================
-Final round. Lock in best results. One last F5 push.
 
 The pipeline has four components working in sequence:
 
