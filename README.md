@@ -10,8 +10,8 @@ This repository documents a thirteen-round optimisation challenge across eight h
 **Project Documentation**
 - [Datasheet for Dataset](DATASHEET.md) — composition, collection process, gaps and assumptions
 - [Model Card](MODEL_CARD.md) — pipeline details, strategy evolution, performance and limitations
-- [Strategy Log](docs/strategy_log.md) — round-by-round decisions and beta evolution
-- [Results Summary](docs/results_summary.md) — all outputs across all 13 rounds
+- [Strategy Log](strategy_log.md) — round-by-round decisions and beta evolution
+- [Results Summary](results_summary.md) — all outputs across all 13 rounds
 ---
 
 This project tackled a challenge called Black-Box Optimisation — finding the best possible inputs for eight hidden mathematical functions, where the only feedback available is the output value returned each week. Think of it as a treasure hunt where you get one dig per location per week and no map. Over 13 weeks, an intelligent search system was built that learned from each result, decided whether to keep exploring new territory or dig deeper in promising areas, and adapted its strategy separately for each of the eight functions. The system combined four core components — a Gaussian Process to model the landscape, Upper Confidence Bound scoring to balance exploration and exploitation, a Support Vector Machine to filter poor regions early, and a Neural Network to estimate the best direction to move. The strategy was further shaped by reinforcement learning principles, clustering analysis, and dimensionality reduction insights drawn from the broader Imperial College ML & AI programme. 
