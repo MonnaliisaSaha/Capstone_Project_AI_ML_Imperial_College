@@ -16,8 +16,9 @@ Add new results here as a new row at the bottom. Bold = all-time best for that f
 | R8 | 1.648e-9 | 0.523 | -0.020 | 0.361 | 2583.58 | -0.717 | 1.791 | 9.9222 |
 | R9 | 2.675e-9 | 0.441 | -0.028 | 0.553 | 2699.31 | -0.707 | 1.807 | 9.9228 |
 | R10 | 2.624e-9 | 0.564 | -0.036 | 0.486 | **2798.79** | -0.698 | 1.804 | 9.923 |
-| R11 | TBD | TBD | TBD | TBD | TBD | TBD | TBD | TBD |
-
+| R11 | 2.68e-9 | 0.538 | -0.016 | 0.5534 | 2908.73 | -0.794 | 1.811 | 9.9228 |
+| R12 | 2.675e-9 | 0.467 | -0.017 | 0.5534 | 3030.59 | -0.779 | 1.8116 | 9.9220 |
+| R13 | 2.675e-9 | 0.512 | -0.023 | 0.5534 | **3166.01** | -0.683 | 1.8116 | 9.9220 |
 ---
 
 ## Confirmed best coordinates
@@ -37,18 +38,18 @@ Add new results here as a new row at the bottom. Bold = all-time best for that f
 
 ## Function character notes
 
-**F1** — Near-zero throughout. Likely a very narrow spike. The centre point [0.5, 0.5] has consistently given the best result but improvement has been near zero since Round 5.
+**F1** — Near-zero throughout all 13 rounds. The centre point [0.5, 0.5] consistently returned the highest value but improvement was near-zero since Round 5. Likely a very narrow spike in a region never sampled — a boundary diagnostic in Rounds 1–2 may have found it.
 
-**F2** — Genuinely stochastic. Same coordinates, different outputs across rounds. Any apparent peak may have a random component.
+**F2** — Genuinely stochastic. Best achieved in Round 6 at 0.6202. Later rounds probing the same region returned lower values, confirming some random noise component. The landscape is narrow and sensitive to small input changes.
 
-**F3** — Fragile. Best achieved in Round 3, never recovered. Small deviations cause large drops.
+**F3** — Fragile peak. Best in Round 3 at -0.0045, never recovered. Best late result was -0.017 in Round 12. Small deviations cause disproportionate drops.
 
-**F4** — Narrow but real. Peak confirmed reproducible at identical coordinates in Rounds 7 and 9. Deviations of 0.02+ cause regression.
+**F4** — Narrow but real. Peak at 0.5534 reproduced identically in Rounds 7, 9, 12 and 13 at the same coordinates. Most reproducible result in the project — confirmed real feature, not noise.
 
-**F5** — Most reliable function. Clear monotone gradient on x1. Ten consecutive rounds of improvement.
+**F5** — Most reliable function. Clear monotone gradient on x1. Improved in every single round from Round 4 to Round 13. Final best: 3166 — approximately 4x the Round 1 baseline.
 
-**F6** — Multimodal and slow. Best in Round 3, slow consistent recovery across Rounds 8-10.
+**F6** — Multimodal and slow. Best in Round 3 at -0.2957. Later rounds never recovered that region. Consistently negative throughout — the landscape resisted all surrogate-guided approaches.
 
-**F7** — x2 decreasing direction established in Round 6. Best achieved in Round 7.
+**F7** — Gradient direction established in Round 6. Best of 1.8116 achieved in Round 7 and reproduced in Rounds 12 and 13 at identical coordinates. Confirmed stable peak.
 
-**F8** — Plateau. Hovering near 9.922-9.925 since Round 3. Likely near the best reachable local maximum.
+**F8** — Plateau. Hovering near 9.920–9.925 since Round 3. Local maximum confirmed — the function has a ceiling in this region and no further improvement was achievable with remaining budget.
