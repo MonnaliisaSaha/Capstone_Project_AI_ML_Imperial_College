@@ -72,11 +72,11 @@ Query generation evolved across rounds:
 | R3 | SVM region classifier added to filter unpromising candidates |
 | R4 | Neural network gradient analysis added; full pipeline operational |
 | R5 | Per-function configuration introduced — beta, step size, SVM threshold, NN weight decay all tuned per function |
-| R6–R11 | Full GP + UCB + SVM + NN pipeline with adaptive per-function settings |
+| R6–R13 | Full GP + UCB + SVM + NN pipeline with adaptive per-function settings |
 
 **Over what time frame?**
 
-Eleven weeks, one submission per function per week via the capstone portal. Results were returned after each submission and incorporated into the next round's training data.
+Thirteen weeks, one submission per function per week via the capstone portal. Results were returned after each submission and incorporated into the next round's training data.
 
 **Were any ethical reviews required?**
 
@@ -120,4 +120,6 @@ Maintained solely by Monalisa Saha. Updated once per round when portal results a
 
 ## Reflection
 
-Writing this datasheet made the assumptions underlying the optimisation strategy much more explicit. The most important assumption — that nearby inputs produce similar outputs — is what makes the GP surrogate useful but also what makes it blind to discontinuous or needle-shaped peaks. Documenting the gaps made it clear that F1 and F8 are the functions where the dataset provides the weakest coverage, and where surrogate confidence should be treated most sceptically. The datasheet also clarified that the exploitation bias in later rounds is not a flaw in the data — it is an expected consequence of how adaptive search works, and anyone using this data for surrogate training should account for it.
+Writing this datasheet made the assumptions underlying the optimisation strategy much more explicit. The most important assumption — that nearby inputs produce similar outputs — is what makes the GP surrogate useful but also what makes it blind to discontinuous or needle-shaped peaks. Documenting the gaps made it clear that F1 and F8 are the functions where the dataset provides the weakest coverage, and where surrogate confidence should be treated most sceptically. The datasheet also clarified that the exploitation bias in later rounds is not a flaw in the data — it is an expected consequence of how adaptive search works, and anyone using this data for surrogate training should account for the resulting imbalance between explored and unexplored regions.
+
+The most surprising finding from documenting the dataset: F4's peak was reproduced identically four times (Rounds 7, 9, 12 and 13) at the same coordinates . That level of reproducibility in a noisy optimisation setting is unusual and suggests the function has a very well-defined local maximum in that region. The dataset captures this clearly and any future work on this function should prioritise that region.
