@@ -6,7 +6,7 @@
 
 **Name:** GP + UCB + SVM + NN Bayesian Optimisation Pipeline  
 **Type:** Surrogate-guided sequential black-box optimisation  
-**Version:** 1.0 (documented at Round 11; complete capstone horizon)
+**Version:** 2.0 (complete — Rounds 1 through 13)
 
 This pipeline selects one query point per function per round using a four-component surrogate stack — Gaussian Process, Upper Confidence Bound acquisition, SVM region filter, and Neural Network gradient refinement. Each component was added incrementally across rounds as the pipeline matured.
 
@@ -42,9 +42,13 @@ Round 1 used pure random sampling to establish a baseline. Round 2 introduced th
 
 The most important structural change in the project. Functions showed clearly different characters by Round 5 — F5 had a reliable exploitable gradient, F1 had almost no signal, F4 kept oscillating. A single beta of 2.576 was too blunt. Round 5 introduced function-specific beta, step size, SVM percentile and NN weight decay, tuned based on observed behaviour.
 
-**Rounds 6–11: Exploitation and recovery**
+**Rounds 6–10: Exploitation and recovery**
 
-The pipeline ran in near-full exploitation mode for functions with clear gradient signals, while maintaining exploration for functions with no reliable pattern. A return-to-best logic was introduced: when a function regressed, it was returned to its last confirmed best coordinates rather than pushed further. This was the most important practical lesson of the project — narrow peaks are fragile, and continuing to nudge from a regressed position makes things worse.
+The pipeline ran in near-full exploitation mode for functions with clear gradient signals, while maintaining exploration for functions with no reliable pattern. A return-to-best logic was introduced: when a function regressed, it was returned to its last confirmed best coordinates rather than pushed further.
+
+**Rounds 11–13: Final lock-in**
+
+The strategy became almost purely exploitative. F5 was pushed along its x1 gradient for three final rounds (x1: 0.550 → 0.580 → 0.610), producing new bests each time. F4 and F7 were returned to their exact confirmed best coordinates and held there. F8 received only micro-refinements. F2, F3 and F6 received final perturbation attempts before locking in their best historical results.
 
 **Full pipeline (Round 6 onwards)**
 
@@ -88,15 +92,17 @@ Metric used: all-time maximum output achieved per function (Ymax).
 
 **Function-specific notes**
 
-F5 is the standout result — the x1 gradient direction produced improvement in ten consecutive rounds, which is exactly the kind of reliable signal Bayesian Optimisation is designed to find.
+F5 is the standout result — the x1 gradient direction produced improvement in ten consecutive rounds (R4–R13), from ~800 in Round 1 to 3166 in Round 13. This is exactly the kind of reliable signal Bayesian Optimisation is designed to find and exploit.
 
-F4 has a narrow but reproducible peak. The same output was produced at identical coordinates in Rounds 7 and 9, confirming the peak is a real feature of the function rather than a noise event.
+F4 has a narrow but reproducible peak. The same output (0.5534) was produced at identical coordinates in Rounds 7, 9, 12 and 13. Four independent reproductions confirm the peak is a real feature of the function.
 
-F2 is genuinely stochastic — identical inputs returned 0.6202 in Round 6 and 0.523 in Round 8. The GP smoothness assumption is violated here, and any exploitation of this function carries higher uncertainty than the model estimates.
+F7 similarly reproduced its best (1.8116) at identical coordinates in Rounds 7, 12 and 13. The gradient direction established in Round 6 held throughout the project.
+
+F2 is genuinely stochastic — identical coordinate regions returned 0.6202 in Round 6 and 0.467 in Round 12. The GP smoothness assumption is violated here, and any exploitation of this function carries higher uncertainty than the model estimates.
 
 F3, F6 and F8 all achieved their best results in Round 3 and were not recovered. The SVM filter located these peaks early but subsequent rounds were unable to return to them precisely — likely because the peaks are narrow and the step sizes used for refinement were slightly too large.
 
-F1 returned near-zero across all eleven rounds, suggesting either an extremely narrow spike or a non-smooth surface that the GP kernel cannot represent accurately.
+F1 returned near-zero across all thirteen rounds, suggesting either an extremely narrow spike or a non-smooth surface that the GP kernel cannot represent accurately. A boundary diagnostic in Rounds 1–2 would have been the correct approach.
 
 ---
 
@@ -106,17 +112,17 @@ F1 returned near-zero across all eleven rounds, suggesting either an extremely n
 
 Local smoothness — the GP, SVM and NN all assume that nearby inputs produce similar outputs. This assumption holds for F5 but is likely violated by F2 (genuinely noisy) and potentially F1 (possible spike or discontinuity).
 
-Stationarity — the pipeline assumes each function's landscape is fixed across all rounds. F4's description suggests a dynamic function, which may explain why its peak is narrow and small deviations cause significant regression.
+Stationarity — the pipeline assumes each function's landscape is fixed across all rounds. F4's scenario (warehouse logistics) may imply dynamic behaviour, which could explain why its peak is narrow and small deviations cause significant regression.
 
-Gradient reliability — the NN gradient is only informative when the surrogate has enough data to model the local surface accurately. With 10–21 observations in eight dimensions, this assumption is weakest for F8.
+Gradient reliability — the NN gradient is only informative when the surrogate has enough data to model the local surface accurately. With 10–23 observations in eight dimensions, this assumption is weakest for F8.
 
 **Limitations**
 
-Small dataset — 21 observations per function after Round 11. The GP extrapolates for most of the search space rather than interpolating from dense coverage.
+Small dataset — 23 observations per function after Round 13. The GP extrapolates for most of the search space rather than interpolating from dense coverage.
 
 Exploitation bias — adaptive search concentrates queries in high-performing regions. Large areas of the search space, especially in high-dimensional functions, are never sampled.
 
-One query per round — standard Bayesian Optimisation assumes parallel candidate evaluations to validate surrogate recommendations. A single bad query can misdirect the strategy for multiple rounds before enough new evidence accumulates to correct it.
+One query per round — standard Bayesian Optimisation benefits from parallel candidate evaluations to validate surrogate recommendations. A single bad query can misdirect the strategy for multiple rounds before enough new evidence accumulates to correct it.
 
 No formal uncertainty calibration — the GP provides uncertainty estimates but these are not calibrated against held-out data. Surrogate confidence should be treated qualitatively rather than as a reliable probability.
 
@@ -128,12 +134,10 @@ This pipeline operates on entirely synthetic numerical data with no connection t
 
 Transparency and reproducibility are built into the structure of this repository. Every query decision is documented with its rationale in each round's README. The scripts are fully commented so another researcher can follow and reproduce the exact workflow. The strategy log records how beta, step size and other hyperparameters evolved across rounds, making it possible to audit why each function was handled differently.
 
-For any real-world application, this approach would require additional validation: uncertainty calibration against held-out data, robustness testing across different function types, and governance checks appropriate to the domain before deployment.
-
 ---
 
 ## Reflection
 
 The most valuable thing this project demonstrated is that a principled surrogate-guided approach outperforms uniform strategies — but only when the surrogate's assumptions match the function's actual behaviour. The functions where the pipeline performed best (F5, F4, F7) are the ones where the smoothness assumption held and the gradient direction was reliable. The functions where the pipeline struggled most (F1, F2, F3) are precisely the ones where that assumption was weakest.
 
-The current structure of this model card is sufficient for academic review and peer reproducibility. For production use, the most important additions would be formal uncertainty calibration, per-function ablation studies comparing the four pipeline components, and a more rigorous framework for deciding when to abandon exploitation and shift to wider exploration. With only eleven queries per function, the cost of getting that decision wrong is high — and the current pipeline has no principled mechanism for making it automatically.
+The single most impactful improvement across the project was the introduction of per-function beta in Round 5. Before that, a uniform configuration was applied to all eight functions regardless of how differently they were behaving. After that, the strategy adapted to the evidence. That principle — letting data drive the decision rather than applying one approach to everything — is the most transferable lesson from this project.
