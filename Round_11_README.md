@@ -1,4 +1,4 @@
-# Round 11 — Final Push Before Extended Rounds
+# Round 11 
 
 ## What this round was about
 
